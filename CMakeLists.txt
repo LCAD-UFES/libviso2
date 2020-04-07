@@ -1,23 +1,33 @@
 # project
-cmake_minimum_required (VERSION 2.6)
-project (libviso2)
+cmake_minimum_required (VERSION 3.14)
 
-# directories
-set (LIBVISO2_SRC_DIR src)
+project (libviso2 LANGUAGES CXX)
 
-# include directory
-include_directories("${LIBVISO2_SRC_DIR}")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# use sse3 instruction set
-SET(CMAKE_CXX_FLAGS "-msse3")
+find_package(PNG REQUIRED)
 
-# sources
-FILE(GLOB LIBVISO2_SRC_FILES "src/*.cpp")
+set(	SOURCES 
+	src/matrix.cpp 
+	src/triangle.cpp 
+	src/filter.cpp 
+	src/matcher.cpp 
+	src/reconstruction.cpp 
+	src/viso.cpp 
+	src/viso_mono.cpp 
+	src/viso_stereo.cpp
+)
 
-# make release version
+add_library(viso2 STATIC ${SOURCES})
+
+target_include_directories(viso2 PUBLIC src)
+
+set_target_properties(viso2 PROPERTIES COMPILE_FLAGS "-msse3")
+
+add_executable(demo src/demo.cpp)
+
+target_link_libraries (demo viso2 PNG::PNG)
+
 set(CMAKE_BUILD_TYPE Release)
-
-# demo program
-add_executable(viso2 ${LIBVISO2_SRC_FILES})
-target_link_libraries (viso2 png)
-

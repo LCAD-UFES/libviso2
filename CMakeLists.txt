@@ -1,7 +1,7 @@
 # project
 cmake_minimum_required (VERSION 3.14)
 
-project (libviso2 LANGUAGES CXX)
+project (libviso2 LANGUAGES CXX VERSION 2.3)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,9 +20,9 @@ set(	SOURCES
 	src/viso_stereo.cpp
 )
 
-add_library(viso2 STATIC ${SOURCES})
+add_library(viso2 ${SOURCES})
 
-target_include_directories(viso2 PUBLIC src)
+target_include_directories(viso2 INTERFACE src)
 
 set_target_properties(viso2 PROPERTIES COMPILE_FLAGS "-msse3")
 

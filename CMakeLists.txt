@@ -24,10 +24,12 @@ add_library(viso2 ${SOURCES})
 
 target_include_directories(viso2 INTERFACE src)
 
-set_target_properties(viso2 PROPERTIES COMPILE_FLAGS "-msse3")
+target_compile_options(viso2 PRIVATE -msse3 -w)
 
 add_executable(demo src/demo.cpp)
 
 target_link_libraries (demo viso2 PNG::PNG)
+
+target_compile_options(demo PRIVATE -msse3 -w)
 
 set(CMAKE_BUILD_TYPE Release)
